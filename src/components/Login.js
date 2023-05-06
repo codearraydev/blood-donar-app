@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { notification } from 'antd';
+import { UNSAFE_DataRouterStateContext, useAsyncError, useNavigate } from 'react-router-dom';
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
 
@@ -40,7 +41,7 @@ function Login() {
             password: "123",
             role: "districtadmin"
         }
-    
+
     ];
 
 
@@ -52,19 +53,25 @@ function Login() {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
-        
-        event.preventDefault();
-        console.log(`Username: ${username}, Password: ${password}`);
+    const [api, contextHolder] = notification.useNotification();
+    const [isLoginError, setIsLoginError] = useState(false)
+    const openNotificationWithIcon = () => {
+        api['error']({
+            message: 'Error',
+            description:
+                'Invalid username or password',
+        });
+    };
 
+
+    const handleSubmit = () => {
         // Find matching admin in dataset
         const matchingAdmin = admins.find((admin) => admin.username === username && admin.password === password);
-
         if (matchingAdmin) {
             console.log(`Login successful. Role: ${matchingAdmin.role}`);
 
             // Store role and other credentials in localStorage
-            
+
             localStorage.setItem("role", matchingAdmin.role);
             localStorage.setItem("name", matchingAdmin.name);
             localStorage.setItem("username", matchingAdmin.username);
@@ -72,37 +79,46 @@ function Login() {
             // Navigate to Dashboard page
             navigate("/Dashboard");
         } else {
-            alert("Invalid username or password")
+             alert("Invalid username or password")
+            // openNotificationWithIcon()
+            // api['error']({
+            //     message: 'Error',
+            //     description:
+            //         'Invalid username or password',
+            // });
+            setIsLoginError(true)
             console.log("Login failed. Invalid username or password.");
         }
     };
 
 
+
+
     return (
         <div className="login-box-main">
-        <div className="login-box">
-            <div className="left">
-                <img src={tbhlogo} style={{ width: 300, marginRight: 30 }} alt="TBH Logo" />
-            </div>
+            <div className="login-box">
+                <div className="left">
+                    <img src={tbhlogo} style={{ width: 300, marginRight: 30 }} alt="TBH Logo" />
+                </div>
 
-            <div className="right">
-                <button style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}><b>Login - Admin Portal</b></button>
-                <br />
-                <br />
-                <br />
-                <form onSubmit={handleSubmit}>
+                <div className="right">
+                    <button style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}><b>Login - Admin Portal</b></button>
+                    <br />
+                    <br />
+                    <br />
+
                     <input type="text" id="username" placeholder='   Username' name="username" value={username} onChange={handleUsernameChange} required />
                     <br />
                     <input type="password" id="password" placeholder='   Password' name="password" value={password} onChange={handlePasswordChange} required />
                     <br />
-                    <input type="submit" value="L O G I N" />
-                </form>
-                <br />
-                <button style={{ background: 'none', border: 'none', padding: 0, margin: 0, color: 'black', cursor: 'pointer' }}>
-                    Forget password?
-                </button>
+                    <button onClick={() => handleSubmit()} className='lgn-btn'>Login</button>
+
+                    <br />
+                    <button style={{ background: 'none', border: 'none', padding: 0, margin: 0, color: 'black', cursor: 'pointer' }}>
+                        Forget password?
+                    </button>
+                </div>
             </div>
-        </div>
         </div>
     );
 }

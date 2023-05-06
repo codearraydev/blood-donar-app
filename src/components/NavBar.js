@@ -30,7 +30,7 @@ function NavBar() {
                 </div>
             </div>
 
-            <ul>         
+            <ul>
 
 
                 <li>
@@ -59,7 +59,7 @@ function NavBar() {
             </ul>
 
 
-                    <p className="sidebar-logout" href="#" onClick={Logout}>Logout</p>
+            <p className="sidebar-logout" href="#" onClick={Logout}>Logout</p>
         </nav>
     );
 }
