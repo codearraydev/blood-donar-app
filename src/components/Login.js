@@ -65,32 +65,69 @@ function Login() {
 
 
     const handleSubmit = () => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let obj = {
+            "email": username,
+            "password": password
+        };
+
+        var raw = JSON.stringify(obj);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/userLogin", requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                console.log(result)
+                if (result.status == 1) {
+                    alert('login success')
+                    localStorage.setItem("role", result.data.role);
+                    // localStorage.setItem("name", result.data.name);
+                    if(result.data.role=="superadmin"){                        
+                        navigate("/Dashboard");
+                    }else if(result.data.role.includes('bloodbank')){
+                        alert("bloodbank dashboard")
+                        navigate("/")
+                    }
+                    
+                } else {
+                    alert("Invalid username or password")
+                    // setIsLoginError(true)
+                    console.log("Login failed. Invalid username or password.");
+                }
+            }
+            )
+            .catch(error => console.log('error', error));
+
+
+
         // Find matching admin in dataset
-        const matchingAdmin = admins.find((admin) => admin.username === username && admin.password === password);
-        if (matchingAdmin) {
-            console.log(`Login successful. Role: ${matchingAdmin.role}`);
+        // const matchingAdmin = admins.find((admin) => admin.username === username && admin.password === password);
+        // if (matchingAdmin) {
+        //     console.log(`Login successful. Role: ${matchingAdmin.role}`);
 
-            // Store role and other credentials in localStorage
+        //     // Store role and other credentials in localStorage
 
-            localStorage.setItem("role", matchingAdmin.role);
-            localStorage.setItem("name", matchingAdmin.name);
-            localStorage.setItem("username", matchingAdmin.username);
+        //     localStorage.setItem("role", matchingAdmin.role);
+        //     localStorage.setItem("name", matchingAdmin.name);
+        //     localStorage.setItem("username", matchingAdmin.username);
 
-            // Navigate to Dashboard page
-            navigate("/Dashboard");
-        } else {
-             alert("Invalid username or password")
-            // openNotificationWithIcon()
-            // api['error']({
-            //     message: 'Error',
-            //     description:
-            //         'Invalid username or password',
-            // });
-            setIsLoginError(true)
-            console.log("Login failed. Invalid username or password.");
-        }
+        //     // Navigate to Dashboard page
+            
+        // } else {
+        //     alert("Invalid username or password")
+        //     setIsLoginError(true)
+        //     console.log("Login failed. Invalid username or password.");
+        // }
     };
-
 
 
 

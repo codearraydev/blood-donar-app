@@ -1,15 +1,15 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { AiFillEye,  AiFillDelete } from "react-icons/ai";
-import Modal from 'react-modal';
+import { AiFillEye, AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
+import { BsPencilFill } from "react-icons/bs";
+import { Button, Modal, Input } from 'antd';
+
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
 import NavBar from './NavBar';
 
-Modal.setAppElement('#root');
-
-
+// Modal.setAppElement('#root');
 
 
 
@@ -139,26 +139,37 @@ function ActiveCases() {
     };
 
 
-    const handleDelete = () => {
-
-        ngos1.splice(index, 1);
-        closeModal();
-
-    }
 
 
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    // const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Define a function to open the modal
     const openModal = () => {
         console.log("okay hy")
-        setModalIsOpen(true);
+        setIsModalOpen(true);
     }
 
-    // Define a function to close the modal
-    const closeModal = () => {
-        setModalIsOpen(false);
-    }
+
+    const handleOk = () => {
+
+        if (func === 'view') {
+            setIsModalOpen(false);
+        }
+        else if (func === 'delete') {
+            ngos1.splice(index, 1);
+            setIsModalOpen(false);
+        }
+
+
+        //perform your desiered action based on MOdel Type...
+        // setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     /////////////////////////////////////////////////////////
 
@@ -169,46 +180,32 @@ function ActiveCases() {
     const viewmodal = (
 
         <div>
-            <div>
-                <br></br>
-                <h2>Blood Case Details</h2>
-                <p className="user-name">Name: <b>{ngoo.name}</b> </p>
-                <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
-                <p className="user-name">District: {ngoo.district}</p>
-                <p className="user-name">Address: {ngoo.address} </p>
-                <p className="user-name">Contact: {ngoo.contact}</p>
-                <p className="user-name">Email: {ngoo.email} </p>
-                <br></br>
-                <br></br>
-            </div>
             <br></br>
-            <button onClick={closeModal} style={{ fontSize: "1.0rem", padding: "5px 10px" }}>Close</button>
+            <h2>Blood Case Details</h2>
+            <p className="user-name">Name: <b>{ngoo.name}</b> </p>
+            <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
+            <p className="user-name">District: {ngoo.district}</p>
+            <p className="user-name">Address: {ngoo.address} </p>
+            <p className="user-name">Contact: {ngoo.contact}</p>
+            <p className="user-name">Email: {ngoo.email} </p>
             <br></br>
         </div>
 
     );
 
 
-///////////////// Content for Delete Modal
+    ///////////////// Content for Delete Modal
 
     const deletemodal = (
 
         <div>
-            <div>
-                <br></br>
-                <h2>Donor Details</h2>
-                <p className="user-name">Name: <b>{ngoo.name}</b> </p>
-                <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
-                <p className="user-name">District: {ngoo.district}</p>
-                <p className="user-name">Address: {ngoo.address} </p>
-                <p className="user-name">Contact: {ngoo.contact}</p>
-                <p className="user-name">Email: {ngoo.email} </p>
-                <br></br>
-                <br></br>
-            </div>
             <br></br>
-            <button style={{ width: "100px", height: "25px", marginRight: "10px" }} onClick={handleDelete}>Delete</button>
-            <button style={{ width: "100px", height: "25px", marginRight: "10px" }} onClick={closeModal}>Cancel</button>
+            <p className="user-name">Name: <b>{ngoo.name}</b> </p>
+            <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
+            <p className="user-name">District: {ngoo.district}</p>
+            <p className="user-name">Address: {ngoo.address} </p>
+            <p className="user-name">Contact: {ngoo.contact}</p>
+            <p className="user-name">Email: {ngoo.email} </p>
             <br></br>
         </div>
 
@@ -231,78 +228,89 @@ function ActiveCases() {
 
                 <div style={{ justifyContent: "center", flexDirection: "column", marginTop: 50 }} >
 
-                    {ngos1.length > 0 ? (
 
-                        <div>
-                            <div>
-                                <div className='searchbars-div'>
 
-                                    {/* ------- Search/Filter Boxes ------- */}
+                    <div>
+                        <div className='searchbars-div'>
 
-                                    <label htmlFor="bloodGroupFilter" className='searchbars-leftlabel'>Filter by Blood Group</label>
-                                    <select id="bloodGroupFilter" value={bloodGroupFilter} onChange={handleBloodGroupFilterChange} className='searchbars-div-leftfilter' >
-                                        <option value="">All Blood Groups</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select>
+                            {/* ------- Search/Filter Boxes ------- */}
 
-                                    <div className='searchbars-div-rightdiv'>
-                                        <label htmlFor="districtFilter" className='searchbars-rightlabel'> Filter by District </label>
-                                        <select id="districtFilter" value={districtFilter} onChange={handleDistrictFilterChange} className='searchbars-div-rightfilter'>
-                                            <option value="">All Districts</option>
-                                            {Array.from(new Set(ngos.map(ngo => ngo.district))).map((district, index) => (
-                                                <option key={index} value={district}>{district}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
+                            <label htmlFor="bloodGroupFilter" className='searchbars-leftlabel'>Filter by Blood Group</label>
+                            <select id="bloodGroupFilter" value={bloodGroupFilter} onChange={handleBloodGroupFilterChange} className='searchbars-div-leftfilter' >
+                                <option value="">All Blood Groups</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+
+                            <div className='searchbars-div-rightdiv'>
+                                <label htmlFor="districtFilter" className='searchbars-rightlabel'> Filter by District </label>
+                                <select id="districtFilter" value={districtFilter} onChange={handleDistrictFilterChange} className='searchbars-div-rightfilter'>
+                                    <option value="">All Districts</option>
+                                    {Array.from(new Set(ngos.map(ngo => ngo.district))).map((district, index) => (
+                                        <option key={index} value={district}>{district}</option>
+                                    ))}
+                                </select>
                             </div>
+                        </div>
+                    </div>
 
-                            {/* ------- Divs/Cards to Show Active Cases Info ------- */}
+                    {/* ------- Divs/Cards to Show Active Cases Info ------- */}
+                    <div className='data-div' >
+
+                        {ngos1.length > 0 ? (
 
                             <div style={{ marginTop: "20px" }}>
                                 {filteredNgos.map((ngo, index) => (
-                                    <div key={ngo.index} className="user-box">
-                                        <div className="user-info">
-                                            <p>{index + 1} {"  -  "} <b> {ngo.name} </b> </p>
-                                            <p>{ngo.bloodgroup} </p>
-                                            <p>{ngo.district} </p>
+
+                                    <div className="user-card">
+                                        <img src={"https://picsum.photos/200/300?random=" + index} alt="User Profile Picture" />
+                                        <div className="user-card-info">
+                                            <h2>Name:  {ngo.name} </h2>
+                                            <p>Blood Group: {ngo.bloodgroup}</p>
+                                            <p>District: {ngo.district}</p>
                                         </div>
 
-                                        <p onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
-                                        <p onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
-
-                                        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-
-                                            {(func === 'view') && (
-                                                viewmodal
-                                            )}
-   
-                                            {(func === 'delete') && (
-                                                deletemodal
-                                            )}
-
-                                        </Modal>
-
-
+                                        <div className="user-card-icons">
+                                            <p className="user-card-icon" onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
+                                            <p className="user-card-icon" onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
+                                        </div>
                                     </div>
                                 ))}
 
                             </div>
 
-                        </div>
 
-                    ) : (
-                        <p style={{ marginTop: "30px", marginLeft: "100px" }}>No Donors to Show</p>
-                    )}
+
+                        ) : (
+                            <p style={{ marginTop: "30px", marginLeft: "100px" }}>No Donors to Show</p>
+                        )}
+
+                    </div>
 
                 </div>
+
+                <Modal
+                    width={'900px'}
+                    title={func === 'view' ? "View Case" : 'Delete Case'}
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                >
+
+                    {(func === 'view') && (
+                        viewmodal
+                    )}
+
+                    {(func === 'delete') && (
+                        deletemodal
+                    )}
+                </Modal>
 
             </main>
         </div>

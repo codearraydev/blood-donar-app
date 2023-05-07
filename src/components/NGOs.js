@@ -166,11 +166,6 @@ function NGOs() {
         setIsModalOpen(true);
     }
 
-    // Define a function to close the modal
-    const closeModal = () => {
-        //setIsModalOpen(false);
-    }
-
 
 
 
@@ -179,20 +174,18 @@ function NGOs() {
     const handleOk = () => {
 
         if (func === 'add') {
-            //add
-            alert("Adding")
+            setNgos1([...ngos, newNgo]);
             setIsModalOpen(false);
         }
         else if (func === 'view') {
-            alert("view")
             setIsModalOpen(false);
         }
         else if (func === 'edit') {
-            alert('edit')
+            ngos1[index] = ngoo
             setIsModalOpen(false);
         }
         else {
-            alert("Delte")
+            ngos1.splice(index, 1);
             setIsModalOpen(false);
         }
 
@@ -240,10 +233,7 @@ function NGOs() {
                 <p className="user-name">Address: {ngoo.address} </p>
                 <p className="user-name">Contact: {ngoo.contact}</p>
                 <p className="user-name">Email: {ngoo.email} </p>
-                <br></br>
-                <br></br>
             </div>
-            <br></br>
             {/* <button onClick={closeModal} style={{ fontSize: "1.0rem", padding: "5px 10px" }}>Close</button> */}
             <br></br>
         </div>
@@ -330,63 +320,54 @@ function NGOs() {
                         </div>
                     </div>
                 </div>
-                <div style={{ height: 500, overflow: 'scroll', justifyContent: "center", flexDirection: "column", marginTop: 50 }} >
 
-
-
-
+                <div className='data-div' >
 
 
                     {ngos1.length > 0 ? (
 
-                        <div>
-
-                            <div style={{ marginTop: "20px" }}>
-                                {filteredNgos.map((ngo, index) => (
-                                    <div class="user-card">
-                                        <img src={"https://picsum.photos/200/300?random=" + index} alt="User Profile Picture" />
-                                        <div class="user-card-info">
-                                            <h2>Name:  {ngo.name}</h2>
-                                            <p>Email:  </p>
-                                        </div>
-                                        <div class="user-card-contact">
-                                            <p>Address: {ngo.district}</p>
-                                            <p>Contact Number</p>
-                                        </div>
-                                        <div class="user-card-icons">
-                                            <p onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
-                                            <p onClick={() => { setNgoo(ngo); setFunc("edit"); setIndex(index); openModal() }}> <BsPencilFill /> </p>
-                                            <p onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
-                                        </div>
+                        <div style={{ marginTop: "20px" }}>
+                            {filteredNgos.map((ngo, index) => (
+                                <div className="user-card">
+                                    <img src={"https://picsum.photos/200/300?random=" + index} alt="User Profile Picture" />
+                                    <div className="user-card-info">
+                                        <h2>Name:  {ngo.name} </h2>
+                                        <p>District: {ngo.district}</p>
                                     </div>
-                                    // <div key={ngo.index} className="user-box">
-                                    //     {/* <img src={`data:image/png;base6`} alt="User" className="user-img" /> */}
-                                    //     <div className="user-info">
-                                    //         <p>{index + 1} {"  -  "} <b> {ngo.name} </b> </p>
-                                    //         <p>{ngo.district} </p>
-                                    //     </div>
-                                    //     <p onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
-                                    //     <p onClick={() => { setNgoo(ngo); setFunc("edit"); setIndex(index); openModal() }}> <BsPencilFill /> </p>
-                                    //     <p onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
+
+                                    <div className="user-card-icons">
+                                        <p className="user-card-icon" onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
+                                        <p className="user-card-icon" onClick={() => { setNgoo(ngo); setFunc("edit"); setIndex(index); openModal() }}> <BsPencilFill /> </p>
+                                        <p className="user-card-icon" onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
+                                    </div>
+                                </div>
+                                // <div key={ngo.index} className="user-box">
+                                //     {/* <img src={`data:image/png;base6`} alt="User" className="user-img" /> */}
+                                //     <div className="user-info">
+                                //         <p>{index + 1} {"  -  "} <b> {ngo.name} </b> </p>
+                                //         <p>{ngo.district} </p>
+                                //     </div>
+                                //     <p onClick={() => { setNgoo(ngo); setFunc("view"); openModal() }}> <AiFillEye /> </p>
+                                //     <p onClick={() => { setNgoo(ngo); setFunc("edit"); setIndex(index); openModal() }}> <BsPencilFill /> </p>
+                                //     <p onClick={() => { setNgoo(ngo); setFunc("delete"); setIndex(index); openModal() }}> <AiFillDelete /> </p>
 
 
 
 
 
-                                    //     {/* <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                                //     {/* <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
 
 
 
-                                    //     </Modal> */}
+                                //     </Modal> */}
 
 
 
-                                    // </div>
-                                ))}
-
-                            </div>
+                                // </div>
+                            ))}
 
                         </div>
+
 
                     ) : (
                         <p style={{ marginTop: "30px", marginLeft: "100px" }}>No NGO Added Yet</p>
@@ -396,16 +377,13 @@ function NGOs() {
 
 
                 <div style={{ justifyContent: "center", display: "flex" }}>
-
                     <div className="functionality-boxes">
-
                         <p onClick={() => { setFunc("add"); openModal() }}> <AiFillPlusCircle /> </p>
                         <h3>Add New NGO</h3>
-
                     </div>
                 </div>
 
-
+                {/*  MODAL */}
 
                 <Modal
                     width={'900px'}
@@ -427,6 +405,7 @@ function NGOs() {
                         deletemodal
                     )}
                 </Modal>
+
             </main>
         </div>
     );
