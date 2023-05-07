@@ -34,57 +34,10 @@ function NGOs() {
     const [nameFilter, setNameFilter] = useState("");
     const [func, setFunc] = useState("");
 
-    const [ngos1, setNgos1] = useState([
-        {
-            name: "NGO 1",
-            district: "District 1",
-            address: "Address 1",
-            contact: "1234567890",
-            email: "ngo1@example.com"
-        },
-        {
-            name: "NGO 2",
-            district: "District 2",
-            address: "Address 2",
-            contact: "2345678901",
-            email: "ngo2@example.com"
-        },
-        {
-            name: "NGO 3",
-            district: "District 3",
-            address: "Address 3",
-            contact: "3456789012",
-            email: "ngo3@example.com"
-        },
-        {
-            name: "NGO 4",
-            district: "District 4",
-            address: "Address 4",
-            contact: "4567890123",
-            email: "ngo4@example.com"
-        },
-        {
-            name: "NGO 5",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com"
-        },
-        {
-            name: "NGO 6",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com"
-        },
-        {
-            name: "NGO 7",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com"
-        }
-    ]);
+
+
+
+    const [ngos1, setNgos1] = useState([]);
 
     const customStyles = {
         overlay: {
@@ -111,9 +64,29 @@ function NGOs() {
     };
 
     useEffect(() => {
+
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllBloodBanks", requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                console.log(result)
+                setNgos1(result.data.result)
+
+            })
+            .catch(error => console.log('error', error));
+
+
         setNgos(ngos1);
         setFilteredNgos(ngos1);
     }, [ngos1]);
+
+
+
 
 
 
@@ -174,18 +147,59 @@ function NGOs() {
     const handleOk = () => {
 
         if (func === 'add') {
-            setNgos1([...ngos, newNgo]);
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var obj = {
+                "organizationName": newNgo.name,
+                "email": newNgo.email,
+                "phoneno": newNgo.contact,
+                "district": newNgo.district,
+                "address": newNgo.address,
+                "location": {
+                    "lat": "341.5",
+                    "lng": "38.2"
+                }
+            }
+
+            var raw = JSON.stringify(obj);
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/createBloodBank", requestOptions)
+                .then(response => response.json())
+                .then((result) => {
+                    console.log(result)
+                    if (result.status == 1) {
+                        alert(result.message)
+                    } else if (result.status == 0) {
+                        alert(result.message)
+                    }
+                })
+                .catch(error => console.log('error', error));
+
+
             setIsModalOpen(false);
         }
         else if (func === 'view') {
             setIsModalOpen(false);
         }
+
+
         else if (func === 'edit') {
             ngos1[index] = ngoo
             setIsModalOpen(false);
         }
+
+
         else {
-            ngos1.splice(index, 1);
+            // ngos1.splice(index, 1);
             setIsModalOpen(false);
         }
 
@@ -205,13 +219,13 @@ function NGOs() {
             {/* <h2>Add New NGO</h2> */}
             <div style={{ display: "flex", flexDirection: "column", paddingRight: "700px" }}>
                 <label style={{ marginTop: "10px" }} htmlFor="name">Name:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={newNgo.name} onChange={(e) => setNewNgo({ ...newNgo, name: e.target.value })} />
+                <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={newNgo.organizationName} onChange={(e) => setNewNgo({ ...newNgo, name: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="district">District:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="text" id="district" value={newNgo.district} onChange={(e) => setNewNgo({ ...newNgo, district: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="address">Address:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="text" id="address" value={newNgo.address} onChange={(e) => setNewNgo({ ...newNgo, address: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="contact">Contact:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={newNgo.contact} onChange={(e) => setNewNgo({ ...newNgo, contact: e.target.value })} />
+                <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={newNgo.phoneno} onChange={(e) => setNewNgo({ ...newNgo, contact: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="email">Email:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="email" id="email" value={newNgo.email} onChange={(e) => setNewNgo({ ...newNgo, email: e.target.value })} />
                 <br /><br />
@@ -228,10 +242,10 @@ function NGOs() {
             <div>
                 <br></br>
                 {/* <h2>NGO Details</h2> */}
-                <p className="user-name">Name: <b>{ngoo.name}</b> </p>
+                <p className="user-name">Name: <b>{ngoo.organizationName}</b> </p>
                 <p className="user-name">District: {ngoo.district}</p>
                 <p className="user-name">Address: {ngoo.address} </p>
-                <p className="user-name">Contact: {ngoo.contact}</p>
+                <p className="user-name">Contact: {ngoo.phoneno}</p>
                 <p className="user-name">Email: {ngoo.email} </p>
             </div>
             {/* <button onClick={closeModal} style={{ fontSize: "1.0rem", padding: "5px 10px" }}>Close</button> */}
@@ -248,13 +262,13 @@ function NGOs() {
             {/* <form onSubmit={handleEdit}> */}
             <div style={{ display: "flex", flexDirection: "column", paddingRight: "700px" }}>
                 <label style={{ marginTop: "10px" }} htmlFor="name">Name:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={ngoo.name} onChange={(e) => setNgoo({ ...ngoo, name: e.target.value })} />
+                <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={ngoo.organizationName} onChange={(e) => setNgoo({ ...ngoo, name: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="district">District:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="text" id="district" value={ngoo.district} onChange={(e) => setNgoo({ ...ngoo, district: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="address">Address:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="text" id="address" value={ngoo.address} onChange={(e) => setNgoo({ ...ngoo, address: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="contact">Contact:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={ngoo.contact} onChange={(e) => setNgoo({ ...ngoo, contact: e.target.value })} />
+                <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={ngoo.phoneno} onChange={(e) => setNgoo({ ...ngoo, contact: e.target.value })} />
                 <label style={{ marginTop: "10px" }} htmlFor="email">Email:</label>
                 <Input style={{ width: "200px", height: "25px" }} type="email" id="email" value={ngoo.email} onChange={(e) => setNgoo({ ...ngoo, email: e.target.value })} />
                 <br /><br />
@@ -273,10 +287,10 @@ function NGOs() {
             <div>
                 <br></br>
                 {/* <h2>NGO Details</h2> */}
-                <p className="user-name">Name: <b>{ngoo.name}</b> </p>
+                <p className="user-name">Name: <b>{ngoo.organizationName}</b> </p>
                 <p className="user-name">District: {ngoo.district}</p>
                 <p className="user-name">Address: {ngoo.address} </p>
-                <p className="user-name">Contact: {ngoo.contact}</p>
+                <p className="user-name">Contact: {ngoo.phoneno}</p>
                 <p className="user-name">Email: {ngoo.email} </p>
                 <br></br>
                 <br></br>
@@ -288,6 +302,7 @@ function NGOs() {
         </div>
 
     );
+
 
 
 
@@ -331,7 +346,7 @@ function NGOs() {
                                 <div className="user-card">
                                     <img src={"https://picsum.photos/200/300?random=" + index} alt="User Profile Picture" />
                                     <div className="user-card-info">
-                                        <h2>Name:  {ngo.name} </h2>
+                                        <h2>Name:  {ngo.organizationName} </h2>
                                         <p>District: {ngo.district}</p>
                                     </div>
 

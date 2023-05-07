@@ -3,17 +3,55 @@ import React from 'react';
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
 import NavBar from './NavBar';
-
+import  { useState } from 'react';
 
 
 function Dashboard() {
 
+    const [totalDonors, settotalDonors] = useState("");
+    const [totalRiders, settotaRiders] = useState("");
+    const [totalBanks, settotalBanks] = useState("");
 
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllBloodBanks", requestOptions)
+        .then(response => response.json())
+        .then(result => {console.log(result)
+            // console.log('banks', result.data.Total)
+            settotalBanks(result.data.Total)
+        })
+        .catch(error => console.log('error', error));
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllVolunteers", requestOptions)
+        .then(response => response.json())
+        .then(result => {console.log(result)
+            settotaRiders(result.data.Total)
+        })
+        .catch(error => console.log('error', error));
     // const navigate = useNavigate();
 
 
     // var name = localStorage.getItem("name")
 
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllDonors", requestOptions)
+        .then(response => response.json())
+        .then(result => {console.log(result)
+            const Total = result.data.Total
+            settotalDonors(Total)
+        })
+        .catch(error => console.log('error', error));
 
     return (
         <div className="main-box">
@@ -32,7 +70,7 @@ function Dashboard() {
 
                         <div className="dashboard-boxes">
                             <h3>Donors</h3>
-                            <h2>122</h2>
+                            <h2>{totalDonors}</h2>
                         </div>
                         <div className="dashboard-boxes">
                             <h3>Cases</h3>
@@ -40,7 +78,7 @@ function Dashboard() {
                         </div>
                         <div className="dashboard-boxes">
                             <h3>Volunteers</h3>
-                            <h2>240</h2>
+                            <h2>{totalRiders}</h2>
                         </div>
 
                     </div>
@@ -48,7 +86,7 @@ function Dashboard() {
 
                         <div className="dashboard-boxes">
                             <h3>NGOs</h3>
-                            <h2>20</h2>
+                            <h2>{totalBanks}</h2>
                         </div>
 
                     </div>

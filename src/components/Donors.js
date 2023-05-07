@@ -23,64 +23,7 @@ function Donors() {
     const [bloodGroupFilter, setBloodGroupFilter] = useState("");
     const [func, setFunc] = useState("");
 
-    const [ngos1] = useState([
-        {
-            name: "Donor 1",
-            district: "District 1",
-            address: "Address 1",
-            contact: "1234567890",
-            email: "ngo1@example.com",
-            bloodgroup: "AB+"
-        },
-        {
-            name: "Donor 2",
-            district: "District 2",
-            address: "Address 2",
-            contact: "2345678901",
-            email: "ngo2@example.com",
-            bloodgroup: "B+"
-        },
-        {
-            name: "Donor 3",
-            district: "District 3",
-            address: "Address 3",
-            contact: "3456789012",
-            email: "ngo3@example.com",
-            bloodgroup: "AB-"
-        },
-        {
-            name: "Donor 4",
-            district: "District 4",
-            address: "Address 4",
-            contact: "4567890123",
-            email: "ngo4@example.com",
-            bloodgroup: "A+"
-        },
-        {
-            name: "Donor 5",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com",
-            bloodgroup: "AB+"
-        },
-        {
-            name: "Donor 6",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com",
-            bloodgroup: "O+"
-        },
-        {
-            name: "Donor 7",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "ngo5@example.com",
-            bloodgroup: "O+"
-        }
-    ]);
+    const [ngos1, setNgos1] = useState([]);
 
 
     //////////////////// Custom Style for Modal
@@ -110,6 +53,21 @@ function Donors() {
     };
 
     useEffect(() => {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+          };
+          
+          fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllDonors", requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                console.log(result)
+                setNgos1(result.data.result)
+            })
+            .catch(error => console.log('error', error));
+
+
         setNgos(ngos1);
         setFilteredNgos(ngos1);
     }, [ngos1]);
@@ -179,10 +137,10 @@ function Donors() {
         <div>
             <br></br>
             <p className="user-name">Name: <b>{ngoo.name}</b> </p>
-            <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
+            <p className="user-name">Blood Group: {ngoo.bloodGroup}</p>
             <p className="user-name">District: {ngoo.district}</p>
             <p className="user-name">Address: {ngoo.address} </p>
-            <p className="user-name">Contact: {ngoo.contact}</p>
+            <p className="user-name">Contact: {ngoo.phoneno}</p>
             <p className="user-name">Email: {ngoo.email} </p>
             <br></br>
         </div>
@@ -197,15 +155,18 @@ function Donors() {
         <div>
             <br></br>
             <p className="user-name">Name: <b>{ngoo.name}</b> </p>
-            <p className="user-name">Blood Group: {ngoo.bloodgroup}</p>
+            <p className="user-name">Blood Group: {ngoo.bloodGroup}</p>
             <p className="user-name">District: {ngoo.district}</p>
             <p className="user-name">Address: {ngoo.address} </p>
-            <p className="user-name">Contact: {ngoo.contact}</p>
+            <p className="user-name">Contact: {ngoo.phoneno}</p>
             <p className="user-name">Email: {ngoo.email} </p>
             <br></br>
         </div>
 
     );
+
+
+    
 
 
 
@@ -270,7 +231,7 @@ function Donors() {
                                         <img src={"https://picsum.photos/200/300?random=" + index} alt="User Profile Picture" />
                                         <div className="user-card-info">
                                             <h2>Name:  {ngo.name} </h2>
-                                            <p>Blood Group: {ngo.bloodgroup}</p>
+                                            <p>Blood Group: {ngo.bloodGroup}</p>
                                             <p>District: {ngo.district}</p>
                                         </div>
 

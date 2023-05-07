@@ -33,57 +33,7 @@ function Volunteers() {
     const [nameFilter, setNameFilter] = useState("");
     const [func, setFunc] = useState("");
 
-    const [ngos1, setNgos1] = useState([
-        {
-            name: "Volunteer 1",
-            district: "District 1",
-            address: "Address 1",
-            contact: "1234567890",
-            email: "ngo1@example.com"
-        },
-        {
-            name: "Volunteer 2",
-            district: "District 2",
-            address: "Address 2",
-            contact: "2345678901",
-            email: "ngo2@example.com"
-        },
-        {
-            name: "Volunteer 3",
-            district: "District 3",
-            address: "Address 3",
-            contact: "3456789012",
-            email: "ngo3@example.com"
-        },
-        {
-            name: "Volunteer 4",
-            district: "District 4",
-            address: "Address 4",
-            contact: "4567890123",
-            email: "Volunteer4@example.com"
-        },
-        {
-            name: "Volunteer 5",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "Volunteer5@example.com"
-        },
-        {
-            name: "Volunteer 6",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "Volunteer5@example.com"
-        },
-        {
-            name: "Volunteer 7",
-            district: "District 5",
-            address: "Address 5",
-            contact: "5678901234",
-            email: "Volunteer5@example.com"
-        }
-    ]);
+    const [ngos1, setNgos1] = useState([]);
 
     const customStyles = {
         overlay: {
@@ -110,6 +60,20 @@ function Volunteers() {
     };
 
     useEffect(() => {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getAllVolunteers", requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                setNgos1(result.data.result)
+                console.log(result)
+            })
+            .catch(error => console.log('error', error));
+
         setNgos(ngos1);
         setFilteredNgos(ngos1);
     }, [ngos1]);
@@ -212,7 +176,7 @@ function Volunteers() {
                     <label style={{ marginTop: "10px" }} htmlFor="address">Address:</label>
                     <Input style={{ width: "200px", height: "25px" }} type="text" id="address" value={newNgo.address} onChange={(e) => setNewNgo({ ...newNgo, address: e.target.value })} />
                     <label style={{ marginTop: "10px" }} htmlFor="contact">Contact:</label>
-                    <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={newNgo.contact} onChange={(e) => setNewNgo({ ...newNgo, contact: e.target.value })} />
+                    <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={newNgo.phoneno} onChange={(e) => setNewNgo({ ...newNgo, contact: e.target.value })} />
                     <label style={{ marginTop: "10px" }} htmlFor="email">Email:</label>
                     <Input style={{ width: "200px", height: "25px" }} type="email" id="email" value={newNgo.email} onChange={(e) => setNewNgo({ ...newNgo, email: e.target.value })} />
                     <br /><br />
@@ -230,7 +194,7 @@ function Volunteers() {
                 <p className="user-name">Name: <b>{ngoo.name}</b> </p>
                 <p className="user-name">District: {ngoo.district}</p>
                 <p className="user-name">Address: {ngoo.address} </p>
-                <p className="user-name">Contact: {ngoo.contact}</p>
+                <p className="user-name">Contact: {ngoo.phoneno}</p>
                 <p className="user-name">Email: {ngoo.email} </p>
             </div>
             <br></br>
@@ -244,16 +208,16 @@ function Volunteers() {
         <div>
             <form onSubmit={handleEdit}>
                 <div style={{ display: "flex", flexDirection: "column", paddingRight: "700px" }}>
-                <label style={{ marginTop: "10px" }} htmlFor="name">Name:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={ngoo.name} onChange={(e) => setNgoo({ ...ngoo, name: e.target.value })} />
-                <label style={{ marginTop: "10px" }} htmlFor="district">District:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="district" value={ngoo.district} onChange={(e) => setNgoo({ ...ngoo, district: e.target.value })} />
-                <label style={{ marginTop: "10px" }} htmlFor="address">Address:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="address" value={ngoo.address} onChange={(e) => setNgoo({ ...ngoo, address: e.target.value })} />
-                <label style={{ marginTop: "10px" }} htmlFor="contact">Contact:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={ngoo.contact} onChange={(e) => setNgoo({ ...ngoo, contact: e.target.value })} />
-                <label style={{ marginTop: "10px" }} htmlFor="email">Email:</label>
-                <Input style={{ width: "200px", height: "25px" }} type="email" id="email" value={ngoo.email} onChange={(e) => setNgoo({ ...ngoo, email: e.target.value })} />
+                    <label style={{ marginTop: "10px" }} htmlFor="name">Name:</label>
+                    <Input style={{ width: "200px", height: "25px" }} type="text" id="name" value={ngoo.name} onChange={(e) => setNgoo({ ...ngoo, name: e.target.value })} />
+                    <label style={{ marginTop: "10px" }} htmlFor="district">District:</label>
+                    <Input style={{ width: "200px", height: "25px" }} type="text" id="district" value={ngoo.district} onChange={(e) => setNgoo({ ...ngoo, district: e.target.value })} />
+                    <label style={{ marginTop: "10px" }} htmlFor="address">Address:</label>
+                    <Input style={{ width: "200px", height: "25px" }} type="text" id="address" value={ngoo.address} onChange={(e) => setNgoo({ ...ngoo, address: e.target.value })} />
+                    <label style={{ marginTop: "10px" }} htmlFor="contact">Contact:</label>
+                    <Input style={{ width: "200px", height: "25px" }} type="text" id="contact" value={ngoo.phoneno} onChange={(e) => setNgoo({ ...ngoo, contact: e.target.value })} />
+                    <label style={{ marginTop: "10px" }} htmlFor="email">Email:</label>
+                    <Input style={{ width: "200px", height: "25px" }} type="email" id="email" value={ngoo.email} onChange={(e) => setNgoo({ ...ngoo, email: e.target.value })} />
                     <br /><br />
                 </div>
 
@@ -272,7 +236,7 @@ function Volunteers() {
                 <p className="user-name">District: {ngoo.district}</p>
                 <p className="user-name">Address: {ngoo.address} </p>
                 <p className="user-name">Contact: {ngoo.contact}</p>
-                <p className="user-name">Email: {ngoo.email} </p>
+                <p className="user-name">Email: {ngoo.email}. </p>
                 <br></br>
             </div>
         </div>
