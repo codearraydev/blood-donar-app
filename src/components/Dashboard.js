@@ -8,10 +8,16 @@ import { useState } from 'react';
 
 function Dashboard() {
 
-    const [totalDonors, settotalDonors] = useState("");
-    const [totalRiders, settotaRiders] = useState("");
-    const [totalBanks, settotalBanks] = useState("");
+    // const [totalDonors, settotalDonors] = useState("");
+    // const [totalRiders, settotaRiders] = useState("");
+    // const [totalBanks, settotalBanks] = useState("");
+    const [bpList, setBpList] = useState([])
 
+
+    const [totalActivieCase, settotalActivieCase] = useState('')
+    const [totalClosedCases, settotalClosedCases] = useState('')
+    const [totalDonors, settotalDonors] = useState('')      //totalBloodBottles
+    const [totalBloodBottles, settotalBloodBottles] = useState('')
 
     useEffect(() => {
 
@@ -36,9 +42,14 @@ function Dashboard() {
         fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getStatsBloodBank", requestOptions)
             .then(response => response.json())
             .then(result => {
-                settotalDonors(result.data.totalActiveCases)
-                settotaRiders(result.data.totalClosedCases)
-                settotalBanks(result.data.totalDonors)
+                settotalActivieCase(result.data.totalActiveCases)
+                settotalClosedCases(result.data.totalClosedCases)
+                settotalDonors(result.data.totalDonors)
+                settotalBloodBottles(result.data.totalBloodBottles)
+
+
+                const bloodTypeArray = Object.entries(result.data.bloodTypes);
+                setBpList(bloodTypeArray)
             })
             .catch(error => console.log('error', error));
     }, [])
@@ -103,29 +114,37 @@ function Dashboard() {
                     <div style={{ justifyContent: "center", display: "flex" }}>
                         <div className="dashboard-boxes">
                             <h3>Active Cases</h3>
-                            <h2>{totalDonors}</h2>
-                        </div>
-                        <div className="dashboard-boxes">
-                            <h3></h3>
-                            <h2>301</h2>
+                            <h2>{totalActivieCase}</h2>
                         </div>
                         <div className="dashboard-boxes">
                             <h3>Closed Cases</h3>
-                            <h2>{totalRiders}</h2>
+                            <h2>{totalClosedCases}</h2>
                         </div>
                         <div className="dashboard-boxes">
                             <h3>Donars</h3>
-                            <h2>{totalBanks}</h2>
+                            <h2>{totalDonors}</h2>
+                        </div>
+                        <div className="dashboard-boxes">
+                            <h3>Bottels</h3>
+                            <h2>{totalBloodBottles}</h2>
                         </div>
 
                     </div>
 
                     <div style={{ justifyContent: "center", display: "flex", marginTop: 30 }}>
                         {/* List of Blood Groups */}
-                        <div className="dashboard-boxes">
+
+                        {bpList.map(([bloodType, count]) => (
+                            <div className="dashboard-boxes">
+                                <h3>{bloodType}</h3>
+                                <h2>{count}</h2>
+                            </div>
+
+                        ))}
+                        {/* <div className="dashboard-boxes">
                             <h3>Donars</h3>
                             <h2>{totalBanks}</h2>
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
