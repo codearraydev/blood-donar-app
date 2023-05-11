@@ -15,7 +15,10 @@ export { default as ANegative } from "./A Negative.svg";
 export { default as BNegative } from "./B Negative.svg";
 export { default as ONegative } from "./O negative.svg";
 export { default as ABNegative } from "./AB negative.svg";
-export { default as donors } from "./donors.svg";
+export { default as donor } from "./donors.svg";
 export { default as volunters } from "./volunters.svg";
-export { default as case } from "./case.svg";
+export { default as casess } from "./casess.svg";
 export { default as ngo } from "./ngo.svg";
+export { default as loginlogo } from "./logo big size.svg";
+export { default as logoo } from "./logoo.JPG";
+

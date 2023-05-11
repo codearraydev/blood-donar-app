@@ -1,5 +1,5 @@
 import React from 'react'
-import { donors, volunters, ngo } from '../svgs'
+import { donor, volunters, ngo,casess } from '../svgs'
 
 function MeasurementCard(props) {
     return (
@@ -13,13 +13,13 @@ function MeasurementCard(props) {
 
             }>
             <div className="measurement-icon">
-                {/* {
-                    props.name == "Donors" ? <img src={donors} alt="" /> :
-                        props.name == "Volunteers" ? <img src={volunters} alt="" /> :
-                            props.name == "NGOs" ? <img src={ngo} alt="" /> :
-                                props.name == "Cases" ? <img src={donors} alt="" /> : null
+                {
+                    props.name == "Donors" ? <img src={donor} alt="" style={{width:"50px"}}/> :
+                        props.name == "Volunteers" ? <img src={volunters} alt="" style={{width:"50px"}} /> :
+                            props.name == "NGOs" ? <img src={ngo} alt="" style={{width:"50px"}}/> :
+                                props.name == "Cases" ? <img src={casess} alt="" style={{width:"50px"}} /> : null
 
-                } */}
+                }
 
             </div>
             <h1 >231</h1>
