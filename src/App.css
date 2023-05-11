@@ -59,14 +59,11 @@
   font-weight: bold;
 }
 
-.login-box input[type="text"],
-.login-box input[type="password"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  /* Add border outline */
+
+.login-box {
   border-radius: 5px;
-  margin-bottom: 20px;
   font-size: 18px;
+  margin-top: 5px;
 }
 
 
@@ -666,5 +663,14 @@ cursor: pointer;
   
 }
 
+.sexy-osama{
+ 
+  color: #ccc;
+}
+
+
+.ant-spin-dot-item{
+  background-color: #fff !important;
+}
 
 

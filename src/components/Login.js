@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { notification } from 'antd';
+import { Input, Spin, notification } from 'antd';
 import { UNSAFE_DataRouterStateContext, useAsyncError, useNavigate } from 'react-router-dom';
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
@@ -7,8 +7,10 @@ import tbhlogo from './resources/TBH LOGO.png';
 function Login() {
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("knightfoundation@gmail.com");
+    const [password, setPassword] = useState("12345678");
+    const [isLoading, setIsloading] = useState(false)
+    const [isLoginError, setIsLoginError] = useState(false)
 
     const admins = [
         {
@@ -54,7 +56,7 @@ function Login() {
     };
 
     const [api, contextHolder] = notification.useNotification();
-    const [isLoginError, setIsLoginError] = useState(false)
+
     const openNotificationWithIcon = () => {
         api['error']({
             message: 'Error',
@@ -65,6 +67,8 @@ function Login() {
 
 
     const handleSubmit = () => {
+        setIsLoginError(false)
+        setIsloading(true)
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -87,20 +91,24 @@ function Login() {
             .then(response => response.json())
             .then((result) => {
                 console.log(result)
+                setIsloading(false)
                 if (result.status == 1) {
-                    alert('login success')
-                    localStorage.setItem("role", result.data.role);
+
+                    localStorage.setItem('userData', JSON.stringify(result.data))
+                    navigate("/Dashboard");
+                    // alert('login success')
+                    //localStorage.setItem("role", result.data.role);
                     // localStorage.setItem("name", result.data.name);
-                    if(result.data.role=="superadmin"){                        
-                        navigate("/Dashboard");
-                    }else if(result.data.role.includes('bloodbank')){
-                        alert("bloodbank dashboard")
-                        navigate("/")
-                    }
-                    
+                    // if (result.data.role == "superadmin") {
+                    //     navigate("/Dashboard");
+                    // } else if (result.data.role.includes('bloodbank')) {
+                    //     alert("bloodbank dashboard")
+                    //     navigate("/")
+                    // }
+
                 } else {
-                    alert("Invalid username or password")
-                    // setIsLoginError(true)
+                    //alert("Invalid username or password")
+                    setIsLoginError(true)
                     console.log("Login failed. Invalid username or password.");
                 }
             }
@@ -121,7 +129,7 @@ function Login() {
         //     localStorage.setItem("username", matchingAdmin.username);
 
         //     // Navigate to Dashboard page
-            
+
         // } else {
         //     alert("Invalid username or password")
         //     setIsLoginError(true)
@@ -144,11 +152,14 @@ function Login() {
                     <br />
                     <br />
 
-                    <input type="text" id="username" placeholder='   Username' name="username" value={username} onChange={handleUsernameChange} required />
+                    <Input id="username" placeholder='Username' name="username" value={username} onChange={handleUsernameChange} required />
                     <br />
-                    <input type="password" id="password" placeholder='   Password' name="password" value={password} onChange={handlePasswordChange} required />
+                    <Input.Password style={{ marginTop: 10 }} placeholder='Password' value={password} onChange={handlePasswordChange} />
+                    {/* <Input.Password type="password" id="password" placeholder='   Password' name="password" value={password} onChange={handlePasswordChange} required /> */}
                     <br />
-                    <button onClick={() => handleSubmit()} className='lgn-btn'>Login</button>
+
+                    {isLoginError && <p style={{ color: 'red' }}>Invalid Username or Password. Please try again.</p>}
+                    <button style={{ marginTop: 20 }} disabled={isLoading} onClick={() => handleSubmit()} className='lgn-btn'>{isLoading ? <Spin className='sexy-osama' /> : "Login"}</button>
 
                     <br />
                     <button style={{ background: 'none', border: 'none', padding: 0, margin: 0, color: 'black', cursor: 'pointer' }}>

@@ -37,7 +37,7 @@ function NavBar() {
                     <a href="/Dashboard">Dashboard</a>
                 </li>
 
-                {(role === 'superadmin' || role === 'nationaladmin' || role === 'districtadmin') && (
+                {(role === 'superadmin' || role === 'nationaladmin' || role === 'districtadmin') ? (
 
                     <>
                         <li>
@@ -53,7 +53,20 @@ function NavBar() {
                             <a href="/Volunteers" >Volunteers</a>
                         </li>
                     </>
-                )}
+                ) :
+                    <>
+
+                        <li>
+                            <a href="/Donors">Donors</a>
+                        </li>
+                        <li>
+                            <a href="/BloodCases">Blood Cases</a>
+                        </li>
+                        <li>
+                            <a href="/Volunteers" >Volunteers</a>
+                        </li>
+                    </>
+                }
 
 
             </ul>
