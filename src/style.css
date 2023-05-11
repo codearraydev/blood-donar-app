@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins';
+}
+
+.main-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar {
+    width: 200px;
+    background: white;
+}
+
+.page-content {
+    flex: 1;
+    background: rgb(238, 235, 235);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.header {
+    height: 70px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+}
+.profile{
+    background-color: #FFC9C9;
+    opacity: 40%;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+}
+.d-flex{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    color: black;
+    padding: 15px;
+}
+.header-icons{
+    display: flex;
+    gap: 2rem;
+}
+.header-icons>img{
+    width: 20px;
+}
+
+.body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: beige;
+}
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+.cards-container{
+    display: flex;
+    gap: 1rem;
+    padding: 15px 0px 0px 0px;
+}
+
+.measrement-card{
+    height: 200px;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    gap: 1rem;
+}
+.measurement-icon{
+    background-color: white;
+    opacity: 40%;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.measrement-card>h1{
+    color: black;
+    margin-bottom: 0px;
+}
+.measrement-card>h4{
+    color: gray;
+}
+
+.blood-stock{
+    display: flex;
+    gap: 1rem;
+}
+.bloodbag-card{
+    height: 130px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+.bloodbag-card>img{
+    height: 40px;
+}
+.bloodbag-card>h4{
+    font-weight: 600;
+}
+.donation-requests{
+    flex:1;
+    background: white;
+    color: black;
+    padding: 15px;
+}
+/* .donation-requests >ant */
+.sidebar>h2{
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+.sidebar>ul>li{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 40px;
+    color: black;
+    cursor: pointer;
+}
+.sidebar>ul>li>img{
+    color: black;
+}
+.bg-pink{
+    background: #FFC9C9;
+}
+.bg-orng{
+    background:  #FFE8C9;
+}
+.bg-blue{
+    background: #C9E8FF;
+}
+.bg-pink-dark{
+    background:  #FFC9E5;
+}

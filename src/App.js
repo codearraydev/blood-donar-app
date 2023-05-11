@@ -1,4 +1,5 @@
-import './App.css';
+// import './App.css';
+import './style.css'
 import * as React from 'react';
 import 'antd/dist/reset.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -13,8 +14,9 @@ import Volunteers from './components/Volunteers';
 import BloodCases from './components/BloodCases';
 import SolvedCases from './components/SolvedCases';
 import ActiveCases from './components/ActiveCases';
+import Home from './components/Home';
+import MainLayout from './layout/MainLayout';
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function App() {
 
@@ -27,6 +29,7 @@ function App() {
             <Route exact path='/Login' element={<Login />} />
             <Route exact path='/NavBar' element={<NavBar />} />
             <Route exact path='/Dashboard' element={<Dashboard />} />
+            <Route exact path='/home' element={<MainLayout><Home/></MainLayout>} />
             <Route exact path='/NGOs' element={<NGOs />} />
             <Route exact path='/Donors' element={<Donors />} />
             <Route exact path='/Volunteers' element={<Volunteers />} />
