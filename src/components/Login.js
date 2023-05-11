@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Spin, notification } from 'antd';
+import { Spin, notification, Button, Checkbox, Form, Input } from 'antd';
 import { UNSAFE_DataRouterStateContext, useAsyncError, useNavigate } from 'react-router-dom';
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
+import { loginlogo, logoo } from '../svgs';
 
 function Login() {
     const navigate = useNavigate();
@@ -11,6 +12,9 @@ function Login() {
     const [password, setPassword] = useState("12345678");
     const [isLoading, setIsloading] = useState(false)
     const [isLoginError, setIsLoginError] = useState(false)
+    const onFinish = (values) => {
+        console.log('Received values of form: ', values);
+    };
 
     const admins = [
         {
@@ -140,32 +144,102 @@ function Login() {
 
 
     return (
-        <div className="login-box-main">
-            <div className="login-box">
-                <div className="left">
-                    <img src={tbhlogo} style={{ width: 300, marginRight: 30 }} alt="TBH Logo" />
-                </div>
+        // <div className="login-box-main">
+        //     <div className="login-box">
+        //         <div className="left">
+        //             <img src={tbhlogo} style={{ width: 300, marginRight: 30 }} alt="TBH Logo" />
+        //         </div>
 
-                <div className="right">
-                    <button style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}><b>Login - Admin Portal</b></button>
-                    <br />
-                    <br />
-                    <br />
+        //         <div className="right">
+        //             <button style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}><b>Login - Admin Portal</b></button>
+        //             <br />
+        //             <br />
+        //             <br />
 
-                    <Input id="username" placeholder='Username' name="username" value={username} onChange={handleUsernameChange} required />
-                    <br />
-                    <Input.Password style={{ marginTop: 10 }} placeholder='Password' value={password} onChange={handlePasswordChange} />
-                    {/* <Input.Password type="password" id="password" placeholder='   Password' name="password" value={password} onChange={handlePasswordChange} required /> */}
-                    <br />
+        //             <Input id="username" placeholder='Username' name="username" value={username} onChange={handleUsernameChange} required />
+        //             <br />
+        //             <Input.Password style={{ marginTop: 10 }} placeholder='Password' value={password} onChange={handlePasswordChange} />
+        //             {/* <Input.Password type="password" id="password" placeholder='   Password' name="password" value={password} onChange={handlePasswordChange} required /> */}
+        //             <br />
 
-                    {isLoginError && <p style={{ color: 'red' }}>Invalid Username or Password. Please try again.</p>}
-                    <button style={{ marginTop: 20 }} disabled={isLoading} onClick={() => handleSubmit()} className='lgn-btn'>{isLoading ? <Spin className='sexy-osama' /> : "Login"}</button>
+        //             {isLoginError && <p style={{ color: 'red' }}>Invalid Username or Password. Please try again.</p>}
+        //             <button style={{ marginTop: 20 }} disabled={isLoading} onClick={() => handleSubmit()} className='lgn-btn'>{isLoading ? <Spin className='sexy-osama' /> : "Login"}</button>
 
-                    <br />
-                    <button style={{ background: 'none', border: 'none', padding: 0, margin: 0, color: 'black', cursor: 'pointer' }}>
-                        Forget password?
-                    </button>
-                </div>
+        //             <br />
+        //             <button style={{ background: 'none', border: 'none', padding: 0, margin: 0, color: 'black', cursor: 'pointer' }}>
+        //                 Forget password?
+        //             </button>
+        //         </div>
+        //     </div>
+        // </div>
+        <div className='login-page'>
+            <div className="left-section">
+                <h2>Beacome a hero in <br />someone's <br />story</h2>
+                <img src={logoo} alt="" />
+                <h2 style={{ alignSelf: "flex-end" }}>with just a <br /> pint of blood</h2>
+            </div>
+            <div className="right-section">
+                <img src={loginlogo} alt="" />
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={handleSubmit}
+                    style={{ minWidth: "300px" }}
+                >
+                    <label style={{ fontWeight: "600" }}>Email</label>
+                    <Form.Item
+                        name="Email"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Email is required!',
+                            },
+
+                        ]}
+                    >
+                        <Input
+                            id="username"
+                            placeholder="Email"
+                            type='email'
+                            name="username"
+                            value={username}
+                            onChange={handleUsernameChange} />
+                    </Form.Item>
+                    <label style={{ fontWeight: "600" }}>Password</label>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your Password!',
+                            },
+                        ]}
+                    >
+                        <Input
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            type="password"
+                            placeholder="Password"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+
+                        <a className="login-form-forgot" href="">
+                            Forgot password?
+                        </a>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button"   >
+                            Login
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
         </div>
     );
