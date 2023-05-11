@@ -17,11 +17,14 @@ function BloodCases() {
     }
 
     const getCases = () => {
+
+        const values = localStorage.getItem('userData')
+        const item = JSON.parse(values)
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "organizationid": "aFKKV48pLz1FqfBx8JPc"
+            "organizationid": item.id
         });
 
         var requestOptions = {
