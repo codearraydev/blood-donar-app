@@ -376,109 +376,124 @@ function Donors() {
 
 
     return (
-        <div className="main-box">
-            <NavBar />
-            <main className="main-content">
-                <div className="topbar">
-                    <img src={tbhlogo} style={{ width: 70 }} alt="Logo" />
+
+
+        <div className='dashboard'>
+            <div className="cards-container">
+                {/* <MeasurementCard name={"Donors"} />
+                <MeasurementCard name={"Volunteers"} />
+                <MeasurementCard name={"NGOs"} />
+                <MeasurementCard name={"Cases"} /> */}
+            </div>
+            {/* <div className='flex-col'>
+                <h4 style={{ color: "#4a4a4a" }}>Blood Stock</h4>
+                <div className="blood-stock">
+                    <BloodBagCard name={"A Positive"} />
+                    <BloodBagCard name={"A Negative"} />
+                    <BloodBagCard name={"B Positive"} />
+                    <BloodBagCard name={"B Negative"} />
+                    <BloodBagCard name={"O Positive"} />
+                    <BloodBagCard name={"O Negative"} />
+                    <BloodBagCard name={"AB Positive"} />
+                    <BloodBagCard name={"AB Negative"} />
                 </div>
 
-                <div className="title-box">
-                    <h1 className="title">Blood Donars</h1>
-                </div>
+            </div> */}
 
+
+            <div className="donation-requests">
+                <h4 style={{ color: "#4a4a4a" }}>Donation Requests</h4>
+                <Table columns={columns} dataSource={donarList} />
+            </div>
+
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {/* <button>Add New Donar</button> */}
+                <Button onClick={() => setIsModalOpen(true)}>Add New Donar</Button>
+            </div>
+
+
+            <Modal
+                title="Basic Modal"
+                confirmLoading={savingData}
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
                 <div>
-                    <Table columns={columns} dataSource={donarList} />
-                </div>
-                {/*  */}
-
-                {/* <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
-                    <button className="button-card" onClick={() => navigate('/ActiveCases')}>
-                        <h3>Active</h3>
-                    </button>
-                    <button className="button-card" onClick={() => navigate('/SolvedCases')}>
-                        <h3>Solved</h3>
-                    </button>
-                </div> */}
-
-                <div>
-                    <button onClick={() => setIsModalOpen(true)}>Add New Donar</button>
-                </div>
-
-
-                <Modal
-                    title="Basic Modal"
-                    confirmLoading={savingData}
-                    open={isModalOpen}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                >
-                    <div>
-                        <div>
-                            <label>Name</label>
-                            <Input placeholder='name' value={name} onChange={(e) => setName(e.target.value)} />
-                        </div>
-
-                        <div>
-                            <label>Email</label>
-                            <Input placeholder='name' value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-
-
-                        <div>
-                            <label>Phone</label>
-                            <Input type='tel' placeholder='name' value={phone} onChange={(e) => setPhone(e.target.value)} />
-                        </div>
-
-
-                        <div>
-                            <label>Gender</label>
-                            <Radio.Group onChange={onGenderChange}>
-                                <Radio value={"Male"}>Male</Radio>
-                                <Radio value={"Female"}>Female</Radio>
-                            </Radio.Group>
-                        </div>
-
-                        <div>
-                            <label>Age</label>
-                            <Input placeholder='name' value={age} onChange={(e) => setAge(e.target.value)} />
-                        </div>
-
-                        <div>
-                            <label>Weight</label>
-                            <Input placeholder='name' value={weight} onChange={(e) => setWeight(e.target.value)} />
-                        </div>
-
-                        <div>
-                            <label>Blood Group</label>
-                            <Select
-                                value={bloodGroup}
-                                style={{ width: '100%' }}
-                                placeholder="Select Blood Group"
-                                onChange={handleChange}
-                                options={[
-                                    { value: 'A+', label: 'A+' },
-                                    { value: 'A-', label: 'A-' },
-                                    { value: 'B+', label: 'B+' },
-                                    { value: 'B-', label: 'B-' },
-                                    { value: 'O+', label: 'O+' },
-                                    { value: 'O-', label: 'O-' },
-                                    { value: 'AB+', label: 'AB+' },
-                                    { value: 'AB-', label: 'AB-' },
-
-                                ]}
-                            />
-                        </div>
-
-                        <div>
-                            <label>Address</label>
-                            <Input.TextArea placeholder='Enter Address..' value={address} onChange={(e) => setAddress(e.target.value)} />
-                        </div>
-
+                    <div className='patient-form'>
+                        <label>Name</label>
+                        <Input placeholder='Full name...' value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
-                </Modal>
-            </main>
+
+                    <div>
+                        <label>Email</label>
+                        <Input placeholder='Email...' value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+
+
+                    <div>
+                        <label>Phone</label>
+                        <Input type='tel' placeholder='Phone number...' value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    </div>
+
+
+                    <div>
+                        <label>Gender</label>
+                        <Radio.Group onChange={onGenderChange}>
+                            <Radio value={"Male"}>Male</Radio>
+                            <Radio value={"Female"}>Female</Radio>
+                        </Radio.Group>
+                    </div>
+
+                    <div>
+                        <label>Age</label>
+                        <Input placeholder='Age...' value={age} onChange={(e) => setAge(e.target.value)} />
+                    </div>
+
+                    <div>
+                        <label>Weight</label>
+                        <Input placeholder='Weight...' value={weight} onChange={(e) => setWeight(e.target.value)} />
+                    </div>
+
+                    <div>
+                        <label>Blood Group</label>
+                        <Select
+                            value={bloodGroup}
+                            style={{ width: '100%' }}
+                            placeholder="Select Blood Group"
+                            onChange={handleChange}
+                            options={[
+                                { value: 'A+', label: 'A+' },
+                                { value: 'A-', label: 'A-' },
+                                { value: 'B+', label: 'B+' },
+                                { value: 'B-', label: 'B-' },
+                                { value: 'O+', label: 'O+' },
+                                { value: 'O-', label: 'O-' },
+                                { value: 'AB+', label: 'AB+' },
+                                { value: 'AB-', label: 'AB-' },
+
+                            ]}
+                        />
+                    </div>
+
+                    <div>
+                        <label>Address</label>
+                        <Input.TextArea placeholder='Enter Address..' value={address} onChange={(e) => setAddress(e.target.value)} />
+                    </div>
+
+                </div>
+            </Modal>
+
         </div>
+
+        // <div>
+        //     <Table columns={columns} dataSource={donarList} />
+        // </div>
+
+
+
+
     )
 
 
