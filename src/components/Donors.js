@@ -248,6 +248,13 @@ function Donors() {
         // 
     };
     const handleCancel = () => {
+        setName('')
+        setEmail('')
+        setPhone('')
+        setGender('')
+        setAge('')
+        setBloodGroup('')
+        setAddress('')
         setIsModalOpen(false);
     };
 

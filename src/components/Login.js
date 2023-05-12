@@ -99,7 +99,7 @@ function Login() {
                 if (result.status == 1) {
 
                     localStorage.setItem('userData', JSON.stringify(result.data))
-                    navigate("/Dashboard");
+                    navigate("/home");
                     // alert('login success')
                     //localStorage.setItem("role", result.data.role);
                     // localStorage.setItem("name", result.data.name);
@@ -235,8 +235,9 @@ function Login() {
                     </Form.Item>
 
                     <Form.Item>
+                        {isLoginError && <p style={{ color: 'red' }}>Invalid Username or Password. Please try again.</p>}
                         <Button type="primary" htmlType="submit" className="login-form-button"   >
-                            Login
+                            {isLoading ? <Spin className='sexy-osama' /> : "Login"}
                         </Button>
                     </Form.Item>
                 </Form>

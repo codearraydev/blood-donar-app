@@ -1,31 +1,44 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { Home, Cases, Ngos, Donors, Volunteer, Notification, messages, search, logout } from '../../svgs';
 function MainLayout(props) {
+
+    const [name, setName] = useState('')
+    useEffect(() => {
+        const values = localStorage.getItem('userData')
+        const item = JSON.parse(values)
+
+        setName(item.organizationName)
+    }, [])
+
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     const { children } = props
     return (
         <div className='main-layout'>
             <div className="sidebar">
-                <h2 style={{fontWeight:"800", fontSize:"30px"}}>T B H</h2>
+                <h2 style={{ fontWeight: "800", fontSize: "30px" }}>T B H</h2>
                 <ul>
-                    <li><img src={Home} alt="" /> Home</li>
-                    <li><img src={Ngos} alt="" />NGOs</li>
-                    <li><img src={Donors} alt="" />Donors</li>
-                    <li><img src={Cases} alt="" />Blood Cases</li>
-                    <li><img src={Volunteer} alt="" />Volunteer</li>
+                    <li><img src={Home} alt="" /> <NavLink activeClassName='is-active' to={'/home'} className='link-style'>Home</NavLink></li>
+                    <li><img src={Ngos} alt="" /><NavLink activeClassName='is-active' to={'/home'} className='link-style'>NGOs</NavLink></li>
+                    <li> <img src={Donors} alt="" /><NavLink activeClassName='is-active' to={'/donors'} className='link-style'>Donors</NavLink></li>
+                    <li><img src={Cases} alt="" /><NavLink activeClassName='is-active' to={'/cases'} className='link-style'>Blood Cases</NavLink></li>
+                    <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' className='link-style'>Volunteer</NavLink></li>
                 </ul>
             </div>
             <div className="page-content">
                 <div className="header">
                     <div className='d-flex'>
                         <div className="profile"></div>
-                        Iqra Hashmi
+                        {capitalizeFirstLetter(name)}
                     </div>
                     <div className='header-icons'>
-                        <img src={search} alt="" />
-                        <img src={messages} alt="" />
-                        <img src={Notification} alt="" />
-                        <img src={logout} alt="" />
+                        <img style={{ cursor: 'pointer' }} src={search} alt="" />
+                        <img style={{ cursor: 'pointer' }} src={messages} alt="" />
+                        <img style={{ cursor: 'pointer' }} src={Notification} alt="" />
+                        <img style={{ cursor: 'pointer' }} src={logout} alt="" />
                     </div>
                 </div>
                 <div className="body">

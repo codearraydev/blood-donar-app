@@ -246,3 +246,18 @@ body {
     font-weight: 600;
     color: #923ae5;
   }
+
+
+  .ant-spin-dot-item{
+    background-color: #fff !important;
+  }
+
+  .link-style{
+    text-decoration: auto !important;
+     display: contents !important;
+      color: #000 !important;
+    }
+
+    .is-active{
+        color: #f32a56;
+    }

@@ -31,9 +31,9 @@ function App() {
             <Route exact path='/Dashboard' element={<Dashboard />} />
             <Route exact path='/home' element={<MainLayout><Home /></MainLayout>} />
             <Route exact path='/NGOs' element={<NGOs />} />
-            <Route exact path='/Donors' element={<MainLayout><Donors /></MainLayout>} />
+            <Route exact path='/donors' element={<MainLayout><Donors /></MainLayout>} />
             <Route exact path='/Volunteers' element={<Volunteers />} />
-            <Route exact path='/BloodCases' element={<BloodCases />} />
+            <Route exact path='/cases' element={<MainLayout>  <BloodCases /></MainLayout>} />
             <Route exact path='/SolvedCases' element={<SolvedCases />} />
             <Route exact path='/ActiveCases' element={<ActiveCases />} />
           </Routes>

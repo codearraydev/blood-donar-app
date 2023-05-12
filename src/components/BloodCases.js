@@ -141,30 +141,40 @@ function BloodCases() {
         },
     ];
     return (
-        <div className="main-box">
-            <NavBar />
-            <main className="main-content">
-                <div className="topbar">
-                    <img src={tbhlogo} style={{ width: 70 }} alt="Logo" />
-                </div>
+        <div className='dashboard'>
+            <div className="cards-container">
 
-                <div className="title-box">
-                    <h1 className="title">BLOOD CASES</h1>
-                </div>
+            </div>
 
-
+            <div className="donation-requests">
+                <h4 style={{ color: "#4a4a4a" }}>Donation Requests</h4>
                 <Table columns={columns} dataSource={caseList} />
-
-                {/* <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
-                    <button className="button-card" onClick={() => navigate('/ActiveCases')}>
-                        <h3>Active</h3>
-                    </button>
-                    <button className="button-card" onClick={() => navigate('/SolvedCases')}>
-                        <h3>Solved</h3>
-                    </button>
-                </div> */}
-            </main>
+            </div>
         </div>
+        // <div className="main-box">
+        //     <NavBar />
+        //     <main className="main-content">
+        //         <div className="topbar">
+        //             <img src={tbhlogo} style={{ width: 70 }} alt="Logo" />
+        //         </div>
+
+        //         <div className="title-box">
+        //             <h1 className="title">BLOOD CASES</h1>
+        //         </div>
+
+
+        //         <Table columns={columns} dataSource={caseList} />
+
+        //         {/* <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
+        //             <button className="button-card" onClick={() => navigate('/ActiveCases')}>
+        //                 <h3>Active</h3>
+        //             </button>
+        //             <button className="button-card" onClick={() => navigate('/SolvedCases')}>
+        //                 <h3>Solved</h3>
+        //             </button>
+        //         </div> */}
+        //     </main>
+        // </div>
     );
 }
 

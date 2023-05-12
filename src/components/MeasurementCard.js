@@ -6,10 +6,10 @@ function MeasurementCard(props) {
 
         <div
             className={
-                props.name == "Donors" ? 'measrement-card bg-pink' :
-                    props.name == "Volunteers" ? 'measrement-card bg-orng' :
-                        props.name == "NGOs" ? 'measrement-card bg-blue' :
-                            props.name == "Cases" ? 'measrement-card bg-pink-dark' : null
+                props.name == "Active Cases" ? 'measrement-card bg-pink' :
+                    props.name == "Closed Cases" ? 'measrement-card bg-orng' :
+                        props.name == "Donars" ? 'measrement-card bg-blue' :
+                            props.name == "Available Bottles" ? 'measrement-card bg-pink-dark' : null
 
             }>
             <div className="measurement-icon">
@@ -22,7 +22,7 @@ function MeasurementCard(props) {
                 }
 
             </div>
-            <h1 >231</h1>
+            <h1 >{props.count}</h1>
             <h4>{props.name}</h4>
         </div>
     )
