@@ -261,3 +261,82 @@ body {
     .is-active{
         color: #f32a56;
     }
+
+
+
+
+    /* Case details page css */
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      
+      .profile {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 30px;
+        background-color: #f9f9f9;
+      }
+      
+      .profile h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #555;
+      }
+      
+      .profile p {
+        margin: 0;
+        color: #777;
+      }
+      
+      .request-details {
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      
+      .request-details h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #555;
+      }
+      
+      .request-details p {
+        margin: 0;
+        color: #777;
+      }
+      
+      .approval-buttons {
+        margin-top: 30px;
+        text-align: center;
+      }
+      
+      .approval-buttons button {
+        padding: 12px 30px;
+        margin-right: 10px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      
+      .approve-button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+      }
+      
+      .approve-button:hover {
+        background-color: #45a049;
+      }
+      
+      .reject-button {
+        background-color: #f44336;
+        color: white;
+        border: none;
+      }
+      
+      .reject-button:hover {
+        background-color: #d32f2f;
+      }

@@ -11,13 +11,14 @@ function BloodCases() {
 
 
     const [caseList, setCaseList] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     const getCases = () => {
-
+        setIsLoading(true)
         const values = localStorage.getItem('userData')
         const item = JSON.parse(values)
         var myHeaders = new Headers();
@@ -38,6 +39,7 @@ function BloodCases() {
             .then(response => response.json())
             .then(result => {
                 setCaseList(result.data.result)
+                setIsLoading(false)
             })
             .catch(error => console.log('error', error));
     }
@@ -80,7 +82,7 @@ function BloodCases() {
             }
         },
         {
-            title: 'Tags',
+            title: 'Case Status',
             key: 'tags',
             dataIndex: 'tags',
             render(text, record, index) {
@@ -89,8 +91,12 @@ function BloodCases() {
                         <Tag color={'blue'} >
                             {capitalizeFirstLetter(record.caseStatus)}
                         </Tag>
-                        <Tag color={'red'}>
+                        <Tag style={{ cursor: 'pointer' }} onClick={() => alert("hello")} color={'red'}>
                             {capitalizeFirstLetter(record.casedecision)}
+                        </Tag>
+
+                        <Tag style={{ cursor: 'pointer' }} onClick={() => navigate('/case-details?caseId=' + record.CaseID + '&receiverId=' + record.reciverID)} color={'green'}>
+                            {"Process Request"}
                         </Tag>
                     </>
                 )
@@ -148,7 +154,7 @@ function BloodCases() {
 
             <div className="donation-requests">
                 <h4 style={{ color: "#4a4a4a" }}>Donation Requests</h4>
-                <Table columns={columns} dataSource={caseList} />
+                <Table loading={isLoading} columns={columns} dataSource={caseList} />
             </div>
         </div>
         // <div className="main-box">

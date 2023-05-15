@@ -16,6 +16,7 @@ import SolvedCases from './components/SolvedCases';
 import ActiveCases from './components/ActiveCases';
 import Home from './components/Home';
 import MainLayout from './layout/MainLayout';
+import CaseDetails from './components/CaseDetails';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route exact path='/cases' element={<MainLayout>  <BloodCases /></MainLayout>} />
             <Route exact path='/SolvedCases' element={<SolvedCases />} />
             <Route exact path='/ActiveCases' element={<ActiveCases />} />
+            <Route exact path='/case-details' element={<MainLayout>  <CaseDetails /></MainLayout>} />
           </Routes>
         </BrowserRouter>
 
