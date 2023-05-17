@@ -10,15 +10,38 @@ function Home() {
     const [totalClosedCases, settotalClosedCases] = useState('')
     const [totalDonors, settotalDonors] = useState('')      //totalBloodBottles
     const [totalBloodBottles, settotalBloodBottles] = useState('')
+    const [allCases, setAllCases] = useState('')
 
+    const getAllCases = () => {
+        const values = localStorage.getItem('userData')
+        const item = JSON.parse(values)
 
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-    useEffect(() => {
+        var raw = JSON.stringify({
+            "organizationid": item.id
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/getCasesforBloodBank", requestOptions)
+            .then(response => response.json())
+            .then(result => { setAllCases(result.data.result) })
+            .catch(error => console.log('error', error));
+
+    }
+ 
+    const getStats = ()=>{
         const values = localStorage.getItem('userData')
         const item = JSON.parse(values)
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        //alert(item.token)
         var raw = JSON.stringify({
             "organizationid": item.id
         });
@@ -41,7 +64,39 @@ function Home() {
                 setBpList(bloodTypeArray)
             })
             .catch(error => console.log('error', error));
+
+    }
+
+    useEffect(() => {
+        getStats();
+        getAllCases();
+      
     }, [])
+
+    const columns = [
+        {
+            title: 'Patient Name',
+            dataIndex: 'pat_name',
+            key: 'pat_name',
+        },
+        {
+            title: 'Blood Group',
+            dataIndex: 'pat_bloodType',
+            key: 'pat_bloodType',
+        },
+        {
+            title: 'Blood Bags',
+            dataIndex: 'bloodBags',
+            key: 'bloodBags',
+        },
+        {
+            title: 'Male',
+            dataIndex: 'pat_gender',
+            key: 'pat_gender',
+        },
+
+
+    ]
     return (
         <div className='dashboard'>
             <div className="cards-container">
@@ -56,20 +111,12 @@ function Home() {
                     {bpList.map(([bloodType, count]) => (
                         <BloodBagCard name={bloodType} count={count} />
                     ))}
-                    {/* <BloodBagCard name={"A Positive"} />
-                    <BloodBagCard name={"A Negative"} />
-                    <BloodBagCard name={"B Positive"} />
-                    <BloodBagCard name={"B Negative"} />
-                    <BloodBagCard name={"O Positive"} />
-                    <BloodBagCard name={"O Negative"} />
-                    <BloodBagCard name={"AB Positive"} />
-                    <BloodBagCard name={"AB Negative"} /> */}
                 </div>
 
             </div>
             <div className="donation-requests">
                 <h3 style={{ color: "#4a4a4a", fontWeight: 'bold' }}>Donation Requests</h3>
-                <Table />
+                <Table columns={columns} dataSource={allCases}/>
             </div>
         </div>
     )

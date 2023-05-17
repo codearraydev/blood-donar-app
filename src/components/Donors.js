@@ -299,7 +299,7 @@ function Donors() {
             render(text, record, index) {
                 return (
                     <>
-                        <p>{record.age}/</p>
+                        <p>{record.age}/{record.weight}</p>
                     </>
                 )
             }
@@ -333,6 +333,7 @@ function Donors() {
                             setPhone(record.phoneno)
                             setGender(record.gender)
                             setAge(record.age)
+                            setWeight(record.weight)
                             setBloodGroup(record.bloodGroup)
                             setAddress(record.district)
                             updateDonarDetails()

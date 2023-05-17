@@ -14,10 +14,10 @@ function MeasurementCard(props) {
             }>
             <div className="measurement-icon">
                 {
-                    props.name == "Donors" ? <img src={donor} alt="" style={{width:"50px"}}/> :
-                        props.name == "Volunteers" ? <img src={volunters} alt="" style={{width:"50px"}} /> :
-                            props.name == "NGOs" ? <img src={ngo} alt="" style={{width:"50px"}}/> :
-                                props.name == "Cases" ? <img src={casess} alt="" style={{width:"50px"}} /> : null
+                    props.name == "Donars" ? <img src={donor} alt="" style={{width:"50px"}}/> :
+                        props.name == "Closed Cases" ? <img src={volunters} alt="" style={{width:"50px"}} /> :
+                            props.name == "Available Bottles" ? <img src={ngo} alt="" style={{width:"50px"}}/> :
+                                props.name == "Active Cases" ? <img src={casess} alt="" style={{width:"50px"}} /> : null
 
                 }
 
