@@ -53,7 +53,7 @@ function CaseDetails() {
             .then(response => response.json())
             .then(result => {
                 setCaseDetails(result.data)
-                // console.log(result)
+
             })
             .catch(error => console.log('error', error));
     }
@@ -112,12 +112,13 @@ function CaseDetails() {
         fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/listOfDonorsSpecificToCase", requestOptions)
             .then(response => response.json())
             .then(result => {
-                setDonarList(result.data)
+                setDonarList(result.data.donors)
+                console.log(result.data)
             })
             .catch(error => console.log('error', error));
     }
 
-
+    const [donarDetail, setDonarDetails] = useState()
     const columns = [
         {
             title: 'Donar Name',
@@ -153,7 +154,12 @@ function CaseDetails() {
             render(text, record, index) {
                 return (
                     <>
-                        <Tag color='red'>{record.DonorDecision}</Tag>
+                        <Tag style={{ cursor: 'pointer' }} onClick={() => {
+                            if (record.DonorDecision === "accepted") {
+                                setDonarDetails(record)
+                                showModal(record)
+                            }
+                        }} color={record.DonorDecision === 'accepted' ? 'green' : 'red'}>{record.DonorDecision}</Tag>
                     </>
                 )
             }
@@ -162,6 +168,74 @@ function CaseDetails() {
     ];
 
 
+
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = (information) => {
+        setIsModalOpen(true);
+        ReportSubmissionFrom(information)
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+
+
+
+    const ReportSubmissionFrom = (information) => {
+        return (
+            <>
+                <div class="info-box">
+                    <h2><strong>Donor Information:</strong></h2>
+                    <p><strong>Name :</strong>  {donarDetail?.donorName}</p>
+                    <p><strong>Phone :</strong>  {donarDetail?.donorPhoneno}</p>
+                    <p><strong>Address :</strong>  {donarDetail?.donorDistrict}</p>
+                    <p><strong>Appointment Time:</strong>  {donarDetail?.appointmentDate}</p>
+                    <p><strong>Last Blood Donated:</strong>  {donarDetail?.lastDonated}</p>
+                    <p><strong>Ride Required:</strong>  {donarDetail?.rideRequired}</p>
+                </div>
+
+                <div class="info-box">
+                    <h2>Basic Patient Information</h2>
+                    <p><strong><label>Name:</label> </strong>{donarDetail?.pat_name}</p>
+                    <p><strong><label>Phone:</label> </strong>{donarDetail?.pat_phoneno}</p>
+                    <p><strong><label>Date Required:</label></strong> {donarDetail?.required_Date}</p>
+                    <p><strong><label>Required Bags:</label> </strong>{donarDetail?.bloodBags}</p>
+                    <p><strong><label>Bags Left:</label> </strong>{donarDetail?.leftBloodBags}</p>
+                </div>
+
+                <div>
+                    <div>
+                        <label for="hemoglobin">Hemoglobin:</label>
+                        <Input type="number" id="hemoglobin" name="hemoglobin" />
+                    </div>
+
+                    <div>
+                        <label for="plateletCount">Platelet Count:</label>
+                        <Input type="number" id="plateletCount" name="plateletCount" />
+                    </div>
+
+                    <div>
+                        <label for="whiteBloodCell">White Blood Cell (WBC) Count:</label>
+                        <Input type="number" id="whiteBloodCell" name="whiteBloodCell" />
+                    </div>
+
+                    <div>
+                        <label for="redBloodCell">Red Blood Cell (RBC) Count:</label>
+                        <Input type="number" id="redBloodCell" name="redBloodCell" />
+                    </div>
+
+                    <div>
+                        <label for="comments">Comments:</label>
+                        <Input.TextArea id="comments" name="comments"></Input.TextArea>
+                    </div>
+                </div>
+            </>
+        )
+    }
 
 
 
@@ -225,6 +299,23 @@ function CaseDetails() {
 
                 <Table dataSource={donarList} columns={columns} />
             </div>
+
+            <Modal
+                title="Donor Inormation"
+                open={isModalOpen}
+                onOk={handleOk}
+                width={900}
+                onCancel={handleCancel}
+                footer={[
+                    <Button onClick={() => handleCancel()} key="1" type='dashed'>Cancel</Button>,
+
+                    <Button key="3" type="primary">
+                        Close Case
+                    </Button>
+                ]}
+            >
+                <ReportSubmissionFrom />
+            </Modal>
 
         </div>
 

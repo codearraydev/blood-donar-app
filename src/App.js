@@ -17,6 +17,7 @@ import ActiveCases from './components/ActiveCases';
 import Home from './components/Home';
 import MainLayout from './layout/MainLayout';
 import CaseDetails from './components/CaseDetails';
+import Events from './components/Event';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route exact path='/SolvedCases' element={<SolvedCases />} />
             <Route exact path='/ActiveCases' element={<ActiveCases />} />
             <Route exact path='/case-details' element={<MainLayout>  <CaseDetails /></MainLayout>} />
+            <Route exact path='/events' element={<MainLayout>  <Events /></MainLayout>} />
           </Routes>
         </BrowserRouter>
 

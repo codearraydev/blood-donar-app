@@ -26,6 +26,7 @@ function MainLayout(props) {
                     <li> <img src={Donors} alt="" /><NavLink activeClassName='is-active' to={'/donors'} className='link-style'>Donors</NavLink></li>
                     <li><img src={Cases} alt="" /><NavLink activeClassName='is-active' to={'/cases'} className='link-style'>Blood Cases</NavLink></li>
                     <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' className='link-style'>Volunteer</NavLink></li>
+                    <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' to={'/events'} className='link-style'>Events</NavLink></li>
                 </ul>
             </div>
             <div className="page-content">

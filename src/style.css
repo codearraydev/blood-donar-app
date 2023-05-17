@@ -339,3 +339,10 @@ body {
       .reject-button:hover {
         background-color: #d32f2f;
       }
+
+
+      .info-box {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
