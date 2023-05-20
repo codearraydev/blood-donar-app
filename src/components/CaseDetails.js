@@ -155,11 +155,11 @@ function CaseDetails() {
                 return (
                     <>
                         <Tag style={{ cursor: 'pointer' }} onClick={() => {
-                            if (record.DonorDecision === "accepted") {
+                            if (record.DonorDecision === "accepted" && record.caseStatus == 'active') {
                                 setDonarDetails(record)
                                 showModal(record)
                             }
-                        }} color={record.DonorDecision === 'accepted' ? 'green' : 'red'}>{record.DonorDecision}</Tag>
+                        }} color={record.DonorDecision === 'accepted' ? 'green' : 'red'}>{record.caseStatus == 'closed' ? "Closed" : record.DonorDecision}</Tag>
                     </>
                 )
             }
@@ -183,58 +183,59 @@ function CaseDetails() {
     };
 
 
+    const [hemo, setHemo] = useState('')
+    const [plateCount, setPlateCount] = useState('')
+    const [wbc, setWbc] = useState('')
+    const [rbc, setRBC] = useState('')
+    const [comment, setComment] = useState('')
+
 
 
     const ReportSubmissionFrom = (information) => {
-        return (
-            <>
-                <div class="info-box">
-                    <h2><strong>Donor Information:</strong></h2>
-                    <p><strong>Name :</strong>  {donarDetail?.donorName}</p>
-                    <p><strong>Phone :</strong>  {donarDetail?.donorPhoneno}</p>
-                    <p><strong>Address :</strong>  {donarDetail?.donorDistrict}</p>
-                    <p><strong>Appointment Time:</strong>  {donarDetail?.appointmentDate}</p>
-                    <p><strong>Last Blood Donated:</strong>  {donarDetail?.lastDonated}</p>
-                    <p><strong>Ride Required:</strong>  {donarDetail?.rideRequired}</p>
-                </div>
 
-                <div class="info-box">
-                    <h2>Basic Patient Information</h2>
-                    <p><strong><label>Name:</label> </strong>{donarDetail?.pat_name}</p>
-                    <p><strong><label>Phone:</label> </strong>{donarDetail?.pat_phoneno}</p>
-                    <p><strong><label>Date Required:</label></strong> {donarDetail?.required_Date}</p>
-                    <p><strong><label>Required Bags:</label> </strong>{donarDetail?.bloodBags}</p>
-                    <p><strong><label>Bags Left:</label> </strong>{donarDetail?.leftBloodBags}</p>
-                </div>
+    }
 
-                <div>
-                    <div>
-                        <label for="hemoglobin">Hemoglobin:</label>
-                        <Input type="number" id="hemoglobin" name="hemoglobin" />
-                    </div>
 
-                    <div>
-                        <label for="plateletCount">Platelet Count:</label>
-                        <Input type="number" id="plateletCount" name="plateletCount" />
-                    </div>
 
-                    <div>
-                        <label for="whiteBloodCell">White Blood Cell (WBC) Count:</label>
-                        <Input type="number" id="whiteBloodCell" name="whiteBloodCell" />
-                    </div>
+    const closeCase = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-                    <div>
-                        <label for="redBloodCell">Red Blood Cell (RBC) Count:</label>
-                        <Input type="number" id="redBloodCell" name="redBloodCell" />
-                    </div>
+        var raw = JSON.stringify({
+            "organizationID": donarDetail?.organizationID,
+            "caseID": donarDetail?.caseID,
+            "reciverID": donarDetail?.reciverID,
+            "sendRequestID": donarDetail?.sendRequestID,
+            "donorID": donarDetail?.donorID,
+            "Hemoglobin": hemo,
+            "plateletCount": plateCount,
+            "whiteBloodCells": wbc,
+            "redBloodCells": rbc,
+            "comments": comment,
+            "BloodDonated": "yes"
+        });
 
-                    <div>
-                        <label for="comments">Comments:</label>
-                        <Input.TextArea id="comments" name="comments"></Input.TextArea>
-                    </div>
-                </div>
-            </>
-        )
+
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/caseClosedDonor", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status == 0) {
+                    alert(result.message)
+                    return
+                }
+
+                alert(result.message)
+                setIsModalOpen(false)
+            })
+            .catch(error => console.log('error', error));
     }
 
 
@@ -280,10 +281,19 @@ function CaseDetails() {
                     <p style={{ marginTop: 5 }}><strong>Additional Information: </strong> {caseDetails?.pat_detail}</p>
                 </div>
 
-                <div class="approval-buttons">
-                    <button class="approve-button" onClick={() => approveRequest()}>Approve</button>
-                    <button class="reject-button" onclick="rejectRequest()">Reject</button>
-                </div>
+
+                {
+                    caseDetails?.casedecision == "Donor Requested" ?
+                        <div class="approval-buttons">
+                            <button class="approve-button" onClick={() => approveRequest()}>Close Case</button>
+                        </div>
+                        :
+                        <div class="approval-buttons">
+                            <button class="approve-button" onClick={() => approveRequest()}>Approve</button>
+                            <button class="reject-button" onclick="rejectRequest()">Reject</button>
+                        </div>
+                }
+
             </div>
 
 
@@ -291,8 +301,8 @@ function CaseDetails() {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h1>Donars List and Status</h1>
                     <div style={{ display: 'flex' }}>
-                        <p>Required Bags: <Tag color='geekblue-inverse'> 10</Tag></p>
-                        <p>Total Donated: <Tag color='green-inverse'> 0</Tag></p>
+                        <p>Required Bags: <Tag color='geekblue-inverse'> {caseDetails?.bloodBags}</Tag></p>
+                        <p>Total Donated: <Tag color='green-inverse'> {caseDetails?.leftBloodBags}</Tag></p>
                     </div>
 
                 </div>
@@ -309,12 +319,58 @@ function CaseDetails() {
                 footer={[
                     <Button onClick={() => handleCancel()} key="1" type='dashed'>Cancel</Button>,
 
-                    <Button key="3" type="primary">
+                    <Button key="3" type="primary" onClick={() => closeCase()}>
                         Close Case
                     </Button>
                 ]}
             >
-                <ReportSubmissionFrom />
+                <>
+                    <div class="info-box">
+                        <h2><strong>Donor Information:</strong></h2>
+                        <p><strong>Name :</strong>  {donarDetail?.donorName}</p>
+                        <p><strong>Phone :</strong>  {donarDetail?.donorPhoneno}</p>
+                        <p><strong>Address :</strong>  {donarDetail?.donorDistrict}</p>
+                        <p><strong>Appointment Time:</strong>  {donarDetail?.appointmentDate}</p>
+                        <p><strong>Last Blood Donated:</strong>  {donarDetail?.lastDonated}</p>
+                        <p><strong>Ride Required:</strong>  {donarDetail?.rideRequired}</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h2>Basic Patient Information</h2>
+                        <p><strong><label>Name:</label> </strong>{donarDetail?.pat_name}</p>
+                        <p><strong><label>Phone:</label> </strong>{donarDetail?.pat_phoneno}</p>
+                        <p><strong><label>Date Required:</label></strong> {donarDetail?.required_Date}</p>
+                        <p><strong><label>Required Bags:</label> </strong>{donarDetail?.bloodBags}</p>
+                        <p><strong><label>Bags Left:</label> </strong>{donarDetail?.leftBloodBags}</p>
+                    </div>
+
+                    <div>
+                        <div>
+                            <label for="hemoglobin">Hemoglobin:</label>
+                            <Input type="number" id="hemoglobin" name="hemoglobin" value={hemo} onChange={(e) => setHemo(e.target.value)} />
+                        </div>
+
+                        <div>
+                            <label for="plateletCount">Platelet Count:</label>
+                            <Input type="number" id="plateletCount" name="plateletCount" value={plateCount} onChange={(e) => setPlateCount(e.target.value)} />
+                        </div>
+
+                        <div>
+                            <label for="whiteBloodCell">White Blood Cell (WBC) Count:</label>
+                            <Input type="number" id="whiteBloodCell" name="whiteBloodCell" value={wbc} onChange={(e) => setWbc(e.target.value)} />
+                        </div>
+
+                        <div>
+                            <label for="redBloodCell">Red Blood Cell (RBC) Count:</label>
+                            <Input type="number" id="redBloodCell" name="redBloodCell" value={rbc} onChange={(e) => setRBC(e.target.value)} />
+                        </div>
+
+                        <div>
+                            <label for="comments">Comments:</label>
+                            <Input.TextArea id="comments" name="comments" value={comment} onChange={(e) => setComment(e.target.value)}></Input.TextArea>
+                        </div>
+                    </div>
+                </>
             </Modal>
 
         </div>
