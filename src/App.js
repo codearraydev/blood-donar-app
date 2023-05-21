@@ -18,6 +18,7 @@ import Home from './components/Home';
 import MainLayout from './layout/MainLayout';
 import CaseDetails from './components/CaseDetails';
 import Events from './components/Event';
+import Donations from './components/Donations';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route exact path='/ActiveCases' element={<ActiveCases />} />
             <Route exact path='/case-details' element={<MainLayout>  <CaseDetails /></MainLayout>} />
             <Route exact path='/events' element={<MainLayout>  <Events /></MainLayout>} />
+            <Route exact path='/donations' element={<MainLayout>  <Donations /></MainLayout>} />
           </Routes>
         </BrowserRouter>
 

@@ -115,11 +115,11 @@ function Home() {
                 </div>
 
             </div>
-            <div className="donation-requests">
+            {/* <div className="donation-requests">
                 <h3 style={{ color: "#4a4a4a", fontWeight: 'bold' }}>Donation Requests</h3>
-                {/* <Table columns={columns} dataSource={allCases}/> */}
+                
                 <Table columns={columns} />
-            </div>
+            </div> */}
         </div>
     )
 }

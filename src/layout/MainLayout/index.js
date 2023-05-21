@@ -22,11 +22,12 @@ function MainLayout(props) {
                 <h2 style={{ fontWeight: "800", fontSize: "30px" }}>T B H</h2>
                 <ul>
                     <li><img src={Home} alt="" /> <NavLink activeClassName='is-active' to={'/home'} className='link-style'>Home</NavLink></li>
-                    <li><img src={Ngos} alt="" /><NavLink activeClassName='is-active' to={'/home'} className='link-style'>NGOs</NavLink></li>
+                    {/* <li><img src={Ngos} alt="" /><NavLink activeClassName='is-active' to={'/home'} className='link-style'>NGOs</NavLink></li> */}
                     <li> <img src={Donors} alt="" /><NavLink activeClassName='is-active' to={'/donors'} className='link-style'>Donors</NavLink></li>
                     <li><img src={Cases} alt="" /><NavLink activeClassName='is-active' to={'/cases'} className='link-style'>Blood Cases</NavLink></li>
                     <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' className='link-style'>Volunteer</NavLink></li>
                     <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' to={'/events'} className='link-style'>Events</NavLink></li>
+                    <li><img src={Volunteer} alt="" /><NavLink activeClassName='is-active' to={'/donations'} className='link-style'>Donation</NavLink></li>
                 </ul>
             </div>
             <div className="page-content">

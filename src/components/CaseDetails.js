@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillEye, AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import { BsPencilFill } from "react-icons/bs";
-import { Button, Modal, Input, Radio, Select, Table, Tag } from 'antd';
+import { Button, Modal, Input, Radio, Select, Table, Tag, Spin } from 'antd';
 
 import '../App.css';
 import tbhlogo from './resources/TBH LOGO.png';
@@ -85,6 +85,35 @@ function CaseDetails() {
             .then(result => {
                 alert(result.message)
                 loadCaseDetails()
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    const [isClosingCase, setIsClosingCase] = useState(false)
+    const closeRequestedCase = (caseId, orgId) => {
+        setIsClosingCase(true)
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "organizationID": orgId,
+            "caseID": caseId,
+            "caseClosedComments": "None"
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/fullCaseClosed", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setIsClosingCase(false)
+                alert("Case Closed...!!!")
+                window.location.reload()
             })
             .catch(error => console.log('error', error));
     }
@@ -283,15 +312,18 @@ function CaseDetails() {
 
 
                 {
-                    caseDetails?.casedecision == "Donor Requested" ?
-                        <div class="approval-buttons">
-                            <button class="approve-button" onClick={() => approveRequest()}>Close Case</button>
-                        </div>
-                        :
-                        <div class="approval-buttons">
-                            <button class="approve-button" onClick={() => approveRequest()}>Approve</button>
-                            <button class="reject-button" onclick="rejectRequest()">Reject</button>
-                        </div>
+
+                    caseDetails?.caseStatus == "closed" ? null :
+
+                        caseDetails?.casedecision == "Donor Requested" ?
+                            <div class="approval-buttons">
+                                <button class="approve-button" onClick={() => closeRequestedCase(caseDetails?.CaseID, caseDetails.organizationID)}>{isClosingCase ? <Spin /> : "Close Case"}</button>
+                            </div>
+                            :
+                            <div class="approval-buttons">
+                                <button class="approve-button" onClick={() => approveRequest()}>Approve</button>
+                                <button class="reject-button" onclick="rejectRequest()">Reject</button>
+                            </div>
                 }
 
             </div>
@@ -302,7 +334,7 @@ function CaseDetails() {
                     <h1>Donars List and Status</h1>
                     <div style={{ display: 'flex' }}>
                         <p>Required Bags: <Tag color='geekblue-inverse'> {caseDetails?.bloodBags}</Tag></p>
-                        <p>Total Donated: <Tag color='green-inverse'> {caseDetails?.leftBloodBags}</Tag></p>
+                        <p>Bags Left: <Tag color='green-inverse'> {caseDetails?.leftBloodBags}</Tag></p>
                     </div>
 
                 </div>

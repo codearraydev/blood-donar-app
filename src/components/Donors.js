@@ -325,9 +325,9 @@ function Donors() {
             title: 'Action',
             render(text, record, index) {
                 return (
-                    <>
-                        <button>Delete</button>
-                        <button onClick={() => {
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Button onClick={() => deleteDonar(record.id)}>Delete</Button>
+                        <Button style={{marginLeft: 10}} type='primary' onClick={() => {
                             setName(record.name)
                             setEmail(record.email)
                             setPhone(record.phoneno)
@@ -337,13 +337,38 @@ function Donors() {
                             setBloodGroup(record.bloodGroup)
                             setAddress(record.district)
                             updateDonarDetails()
-                        }}>Update</button>
-                    </>
+                        }}>Update</Button>
+                    </div>
                 )
             }
         },
 
     ];
+
+
+    const deleteDonar = (donarID) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "id": donarID
+        });
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/delDonor", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                alert("Donar has been deleted....!!!")
+                getMyDonarList()
+            })
+            .catch(error => console.log('error', error));
+    }
 
 
     const updateDonarDetails = () => {

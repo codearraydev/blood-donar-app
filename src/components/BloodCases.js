@@ -85,18 +85,33 @@ function BloodCases() {
             title: 'Case Status',
             key: 'tags',
             dataIndex: 'tags',
+            filters: [
+                {
+                    text: 'Closed',
+                    value: 'closed',
+                },
+                {
+                    text: 'Active',
+                    value: 'active',
+                },
+            ],
+            onFilter: (value, record) => record.caseStatus.indexOf(value) === 0,
             render(text, record, index) {
                 return (
                     <>
-                        <Tag color={'blue'} >
+                        <Tag color={record.caseStatus == "closed" ? 'blue-inverse' : 'blue'} >
                             {capitalizeFirstLetter(record.caseStatus)}
                         </Tag>
-                        <Tag style={{ cursor: 'pointer' }} onClick={() => alert("hello")} color={'red'}>
-                            {capitalizeFirstLetter(record.casedecision)}
-                        </Tag>
 
+
+                        {
+                            record.caseStatus == "closed" ? null :
+                                <Tag style={{ cursor: 'pointer' }} onClick={() => alert("hello")} color={'red'}>
+                                    {capitalizeFirstLetter(record.casedecision)}
+                                </Tag>
+                        }
                         <Tag style={{ cursor: 'pointer' }} onClick={() => navigate('/case-details?caseId=' + record.CaseID + '&receiverId=' + record.reciverID)} color={'green'}>
-                            {"Process Request"}
+                            {"View Details"}
                         </Tag>
                     </>
                 )
@@ -123,29 +138,7 @@ function BloodCases() {
         //     ),
         // },
     ];
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sydney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
+
     return (
         <div className='dashboard'>
             <div className="cards-container">
