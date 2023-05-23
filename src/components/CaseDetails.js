@@ -162,13 +162,13 @@ function CaseDetails() {
         },
         {
             title: 'Donation Booking Date.',
-            dataIndex: '',
-            key: '',
+            dataIndex: 'required_Date',
+            key: 'required_Date',
         },
         {
-            title: 'Blood Group',
-            dataIndex: '',
-            key: '',
+            title: 'Ride Required',
+            dataIndex: 'rideRequired',
+            key: 'rideRequired',
         },
         {
             title: 'Applicant Name',
@@ -194,9 +194,54 @@ function CaseDetails() {
             }
         },
 
+        {
+            title: 'Actions',
+            key: 'tags',
+            dataIndex: 'tags',
+            render(text, record, index) {
+                return (
+                    <>
+                        {
+                            record.rideRequired == "yes" && <Tag onClick={() => sendRideRequest(record)} style={{ cursor: 'pointer' }} color='processing'>Send Reuqest to Rider</Tag>
+                        }
+                        {/* <Tag style={{ cursor: 'pointer' }} onClick={() => {
+                            if (record.DonorDecision === "accepted" && record.caseStatus == 'active') {
+                                setDonarDetails(record)
+                                showModal(record)
+                            }
+                        }} color={record.DonorDecision === 'accepted' ? 'green' : 'red'}>{record.caseStatus == 'closed' ? "Closed" : record.DonorDecision}</Tag> */}
+                    </>
+                )
+            }
+        },
     ];
 
 
+    const sendRideRequest = (record) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "organizationID": record.organizationID,
+            "caseID": record.caseID
+        });
+
+
+        alert(JSON.stringify(raw))
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://us-central1-blood-donar-project.cloudfunctions.net/app/sendRideRequest", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message)
+            })
+            .catch(error => console.log('error', error));
+    }
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
