@@ -223,7 +223,8 @@ function CaseDetails() {
 
         var raw = JSON.stringify({
             "organizationID": record.organizationID,
-            "caseID": record.caseID
+            "caseID": record.caseID,
+            "donorID": record.donorID
         });
 
 
